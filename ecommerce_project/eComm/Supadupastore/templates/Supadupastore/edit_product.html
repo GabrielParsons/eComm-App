@@ -1,0 +1,26 @@
+{% extends 'Supadupastore/base.html' %}
+
+{% block title %}Edit Product - Supadupastore{% endblock %}
+
+{% block content %}
+<h1>Edit Product</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    
+    <label for="name">Product Name:</label>
+    <input type="text" id="name" name="name" value="{{ product.name }}" required>
+    
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" rows="5" required>{{ product.description }}</textarea>
+    
+    <label for="price">Price ($):</label>
+    <input type="number" id="price" name="price" step="0.01" min="0" value="{{ product.price }}" required>
+    
+    <label for="stock">Stock Quantity:</label>
+    <input type="number" id="stock" name="stock" min="0" value="{{ product.stock }}" required>
+    
+    <button type="submit">Save Changes</button>
+    <a href="{% url 'Supadupastore:my_products' %}" style="margin-left: 10px;">Cancel</a>
+</form>
+{% endblock %}

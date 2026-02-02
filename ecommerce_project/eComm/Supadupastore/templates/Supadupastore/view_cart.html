@@ -1,0 +1,48 @@
+{% extends 'Supadupastore/base.html' %}
+
+{% block title %}Shopping Cart - Supadupastore{% endblock %}
+
+{% block content %}
+<h1>Shopping Cart</h1>
+
+{% if cart_items %}
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+            <tr>
+                <td><a href="{% url 'Supadupastore:product_detail' item.product.id %}">{{ item.product.name }}</a></td>
+                <td>${{ item.product.price }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>${{ item.subtotal }}</td>
+                <td>
+                    <form method="POST" action="{% url 'Supadupastore:remove_from_cart' item.product.id %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" style="background: red;">Remove</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="3">Total:</th>
+                <th>${{ total }}</th>
+                <th></th>
+            </tr>
+        </tfoot>
+    </table>
+    
+    <p><a href="{% url 'Supadupastore:checkout' %}" class="btn">Proceed to Checkout</a></p>
+{% else %}
+    <p>Your cart is empty. <a href="{% url 'Supadupastore:browse_products' %}">Start shopping!</a></p>
+{% endif %}
+{% endblock %}

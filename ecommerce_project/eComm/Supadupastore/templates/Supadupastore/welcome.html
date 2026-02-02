@@ -1,0 +1,27 @@
+{% extends 'Supadupastore/base.html' %}
+
+{% block title %}Welcome - Supadupastore{% endblock %}
+
+{% block content %}
+<h1>Welcome, {{ user.username }}!</h1>
+
+{% if user.groups.all.0.name == 'Vendors' %}
+    <h2>Vendor Dashboard</h2>
+    <div class="card">
+        <h3>Quick Actions</h3>
+        <p><a href="{% url 'Supadupastore:my_stores' %}" class="btn">Manage My Stores</a></p>
+        <p><a href="{% url 'Supadupastore:my_products' %}" class="btn">Manage My Products</a></p>
+        <p><a href="{% url 'Supadupastore:create_store' %}" class="btn">Create New Store</a></p>
+        <p><a href="{% url 'Supadupastore:add_product' %}" class="btn">Add New Product</a></p>
+    </div>
+{% else %}
+    <h2>Buyer Dashboard</h2>
+    <div class="card">
+        <h3>Quick Actions</h3>
+        <p><a href="{% url 'Supadupastore:browse_products' %}" class="btn">Browse All Products</a></p>
+        <p><a href="{% url 'Supadupastore:view_cart' %}" class="btn">View My Cart</a></p>
+    </div>
+{% endif %}
+
+<p style="margin-top: 20px;"><a href="{% url 'Supadupastore:alter_login' %}">Change Username/Password</a></p>
+{% endblock %}

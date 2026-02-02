@@ -1,0 +1,22 @@
+{% extends 'Supadupastore/base.html' %}
+
+{% block title %}Order Confirmed - Supadupastore{% endblock %}
+
+{% block content %}
+<h1>Order Confirmed!</h1>
+
+<p class="success">Thank you for your purchase!</p>
+
+<div class="card">
+    <h2>Order Details</h2>
+    <p><strong>Order Number:</strong> #{{ order.id }}</p>
+    <p><strong>Total Amount:</strong> ${{ order.total_amount }}</p>
+    <p><strong>Order Date:</strong> {{ order.created_at|date:"M d, Y H:i" }}</p>
+    <p>An invoice has been sent to your email: <strong>{{ user.email }}</strong></p>
+</div>
+
+<p>
+    <a href="{% url 'Supadupastore:browse_products' %}" class="btn">Continue Shopping</a>
+    <a href="{% url 'Supadupastore:welcome' %}" class="btn" style="background: gray;">Go to Dashboard</a>
+</p>
+{% endblock %}

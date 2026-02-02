@@ -1,0 +1,37 @@
+{% extends 'Supadupastore/base.html' %}
+
+{% block title %}My Stores - Supadupastore{% endblock %}
+
+{% block content %}
+<h1>My Stores</h1>
+
+<p><a href="{% url 'Supadupastore:create_store' %}" class="btn">Create New Store</a></p>
+
+{% if stores %}
+    <table>
+        <thead>
+            <tr>
+                <th>Store Name</th>
+                <th>Description</th>
+                <th>Created</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for store in stores %}
+            <tr>
+                <td>{{ store.name }}</td>
+                <td>{{ store.description|truncatewords:10 }}</td>
+                <td>{{ store.created_at|date:"M d, Y" }}</td>
+                <td>
+                    <a href="{% url 'Supadupastore:edit_store' store.id %}">Edit</a> | 
+                    <a href="{% url 'Supadupastore:delete_store' store.id %}" style="color: red;">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>You don't have any stores yet. <a href="{% url 'Supadupastore:create_store' %}">Create one now</a>!</p>
+{% endif %}
+{% endblock %}

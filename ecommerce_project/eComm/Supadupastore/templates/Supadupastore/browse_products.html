@@ -1,0 +1,33 @@
+{% extends 'Supadupastore/base.html' %}
+
+{% block title %}Browse Products - Supadupastore{% endblock %}
+
+{% block content %}
+<h1>🛍️ All Products</h1>
+
+{% if products %}
+    <div class="product-grid">
+        {% for product in products %}
+        <div class="card">
+            <h3 style="color: #667eea; margin-bottom: 10px;">{{ product.name }}</h3>
+            <p style="font-size: 14px; color: #718096; margin-bottom: 8px;">
+                <strong>🏬 Store:</strong> {{ product.store.name }}
+            </p>
+            <p style="margin-bottom: 12px; color: #4a5568;">{{ product.description|truncatewords:15 }}</p>
+            <p style="font-size: 20px; font-weight: bold; color: #667eea; margin-bottom: 8px;">
+                ${{ product.price }}
+            </p>
+            <p style="font-size: 14px; color: #718096; margin-bottom: 15px;">
+                <strong>📦 In Stock:</strong> {{ product.stock }}
+            </p>
+            <a href="{% url 'Supadupastore:product_detail' product.id %}" class="btn" style="width: 100%; text-align: center;">View Details</a>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div style="text-align: center; padding: 40px;">
+        <p style="font-size: 18px; color: #718096;">No products available yet.</p>
+        <p style="margin-top: 10px;"><a href="{% url 'Supadupastore:welcome' %}" class="btn">Go to Dashboard</a></p>
+    </div>
+{% endif %}
+{% endblock %}

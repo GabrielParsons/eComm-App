@@ -1,0 +1,20 @@
+{% extends 'Supadupastore/base.html' %}
+
+{% block title %}Edit Store - Supadupastore{% endblock %}
+
+{% block content %}
+<h1>Edit Store</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    
+    <label for="name">Store Name:</label>
+    <input type="text" id="name" name="name" value="{{ store.name }}" required>
+    
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" rows="5">{{ store.description }}</textarea>
+    
+    <button type="submit">Save Changes</button>
+    <a href="{% url 'Supadupastore:my_stores' %}" style="margin-left: 10px;">Cancel</a>
+</form>
+{% endblock %}

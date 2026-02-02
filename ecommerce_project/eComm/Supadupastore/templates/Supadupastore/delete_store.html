@@ -1,0 +1,16 @@
+{% extends 'Supadupastore/base.html' %}
+
+{% block title %}Delete Store - Supadupastore{% endblock %}
+
+{% block content %}
+<h1>Delete Store</h1>
+
+<p>Are you sure you want to delete the store "<strong>{{ store.name }}</strong>"?</p>
+<p class="error">Warning: This will also delete all products in this store!</p>
+
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit" style="background: red;">Yes, Delete Store</button>
+    <a href="{% url 'Supadupastore:my_stores' %}" class="btn" style="background: gray;">Cancel</a>
+</form>
+{% endblock %}

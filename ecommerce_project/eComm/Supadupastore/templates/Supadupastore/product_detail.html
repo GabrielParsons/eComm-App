@@ -1,0 +1,85 @@
+{% extends 'Supadupastore/base.html' %}
+
+{% block title %}{{ product.name }} - Supadupastore{% endblock %}
+
+{% block content %}
+<h1>{{ product.name }}</h1>
+
+<div class="card" style="margin-bottom: 30px;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+        <div>
+            <p style="margin-bottom: 15px;"><strong style="color: #4a5568;">🏬 Store:</strong> {{ product.store.name }}</p>
+            <p style="font-size: 32px; font-weight: bold; color: #667eea; margin-bottom: 15px;">
+                ${{ product.price }}
+            </p>
+            <p style="margin-bottom: 15px;">
+                <strong style="color: #4a5568;">📦 Availability:</strong> 
+                {% if product.stock > 0 %}
+                    <span style="color: #38a169; font-weight: 600;">{{ product.stock }} in stock</span>
+                {% else %}
+                    <span style="color: #e53e3e; font-weight: 600;">Out of stock</span>
+                {% endif %}
+            </p>
+        </div>
+        <div>
+            {% if user.is_authenticated and product.stock > 0 %}
+                <form method="POST" action="{% url 'Supadupastore:add_to_cart' product.id %}">
+                    {% csrf_token %}
+                    <label for="quantity" style="font-weight: 600; color: #4a5568;">Quantity:</label>
+                    <input type="number" id="quantity" name="quantity" value="1" min="1" max="{{ product.stock }}" style="width: 100px; margin-bottom: 15px;">
+                    <button type="submit" class="btn-success btn" style="width: 100%;">🛒 Add to Cart</button>
+                </form>
+            {% elif not user.is_authenticated %}
+                <p style="text-align: center; padding: 20px; background: #edf2f7; border-radius: 8px;">
+                    <a href="{% url 'Supadupastore:login' %}" class="btn">Login to Purchase</a>
+                </p>
+            {% endif %}
+        </div>
+    </div>
+    <hr style="margin: 20px 0; border: none; border-top: 1px solid #e2e8f0;">
+    <div>
+        <h3 style="margin-bottom: 10px; color: #4a5568;">📝 Description</h3>
+        <p style="color: #718096; line-height: 1.8;">{{ product.description }}</p>
+    </div>
+</div>
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h2 style="margin: 0;">⭐ Customer Reviews</h2>
+    {% if user.is_authenticated %}
+        <a href="{% url 'Supadupastore:add_review' product.id %}" class="btn">✍️ Write a Review</a>
+    {% endif %}
+</div>
+
+{% if reviews %}
+    {% for review in reviews %}
+    <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 10px;">
+            <div>
+                <strong style="color: #2d3748; font-size: 16px;">{{ review.user.username }}</strong>
+                {% if review.is_verified %}
+                    <span class="badge badge-verified">✓ Verified Purchase</span>
+                {% else %}
+                    <span class="badge badge-unverified">Unverified</span>
+                {% endif %}
+            </div>
+            <span style="font-size: 14px; color: #a0aec0;">{{ review.created_at|date:"M d, Y" }}</span>
+        </div>
+        <div style="margin-bottom: 10px;">
+            {% for i in "12345" %}
+                {% if forloop.counter <= review.rating %}
+                    <span style="color: #f6ad55; font-size: 18px;">★</span>
+                {% else %}
+                    <span style="color: #e2e8f0; font-size: 18px;">★</span>
+                {% endif %}
+            {% endfor %}
+            <span style="margin-left: 5px; color: #4a5568; font-weight: 600;">{{ review.rating }}/5</span>
+        </div>
+        <p style="color: #4a5568; line-height: 1.6;">{{ review.comment }}</p>
+    </div>
+    {% endfor %}
+{% else %}
+    <div style="text-align: center; padding: 40px; background: #f7fafc; border-radius: 12px;">
+        <p style="font-size: 18px; color: #718096;">No reviews yet. Be the first to review this product!</p>
+    </div>
+{% endif %}
+{% endblock %}

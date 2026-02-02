@@ -1,0 +1,20 @@
+{% extends 'Supadupastore/base.html' %}
+
+{% block title %}Change Login Details - Supadupastore{% endblock %}
+
+{% block content %}
+<h1>Change Username or Password</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    
+    <label for="username">New Username (leave blank to keep current):</label>
+    <input type="text" id="username" name="username" placeholder="{{ user.username }}">
+    
+    <label for="password">New Password (leave blank to keep current):</label>
+    <input type="password" id="password" name="password">
+    
+    <button type="submit">Update</button>
+    <a href="{% url 'Supadupastore:welcome' %}" style="margin-left: 10px;">Cancel</a>
+</form>
+{% endblock %}

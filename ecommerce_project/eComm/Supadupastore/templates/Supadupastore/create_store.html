@@ -1,0 +1,27 @@
+{% extends 'Supadupastore/base.html' %}
+
+{% block title %}Create Store - Supadupastore{% endblock %}
+
+{% block content %}
+<h1>Create New Store</h1>
+
+{% if error %}
+    <p class="error">{{ error }}</p>
+{% endif %}
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <label for="name">Store Name:</label>
+    <input type="text" id="name" name="name" required>
+    
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" rows="5"></textarea>
+    
+    <label for="logo">Store Logo (optional):</label>
+    <input type="file" id="logo" name="logo" accept="image/*">
+    
+    <button type="submit">Create Store</button>
+    <a href="{% url 'Supadupastore:my_stores' %}" style="margin-left: 10px;">Cancel</a>
+</form>
+{% endblock %}

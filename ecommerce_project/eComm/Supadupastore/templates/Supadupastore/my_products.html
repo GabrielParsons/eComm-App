@@ -1,0 +1,39 @@
+{% extends 'Supadupastore/base.html' %}
+
+{% block title %}My Products - Supadupastore{% endblock %}
+
+{% block content %}
+<h1>My Products</h1>
+
+<p><a href="{% url 'Supadupastore:add_product' %}" class="btn">Add New Product</a></p>
+
+{% if products %}
+    <table>
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Store</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>{{ product.name }}</td>
+                <td>{{ product.store.name }}</td>
+                <td>${{ product.price }}</td>
+                <td>{{ product.stock }}</td>
+                <td>
+                    <a href="{% url 'Supadupastore:edit_product' product.id %}">Edit</a> | 
+                    <a href="{% url 'Supadupastore:delete_product' product.id %}" style="color: red;">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>You don't have any products yet. <a href="{% url 'Supadupastore:add_product' %}">Add one now</a>!</p>
+{% endif %}
+{% endblock %}
